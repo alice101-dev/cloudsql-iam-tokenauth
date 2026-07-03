@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -28,7 +29,12 @@ func loadEnv(filename string) error {
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	// Read-only file: a Close error can't lose data, but surface it anyway.
+	defer func() {
+		if cerr := file.Close(); cerr != nil {
+			log.Printf("closing %s: %v", filename, cerr)
+		}
+	}()
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -44,7 +50,9 @@ func loadEnv(filename string) error {
 			// Strip inline comments and surrounding whitespace from the value.
 			val := strings.TrimSpace(strings.SplitN(parts[1], "#", 2)[0])
 			if _, exists := os.LookupEnv(key); !exists {
-				os.Setenv(key, val)
+				if err := os.Setenv(key, val); err != nil {
+					return fmt.Errorf("setting %s from %s: %w", key, filename, err)
+				}
 			}
 		}
 	}
