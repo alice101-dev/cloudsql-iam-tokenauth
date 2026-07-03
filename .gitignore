@@ -1,0 +1,22 @@
+# Local environment / secrets — never commit real credentials or infra details
+.env
+.env.*
+!.env.example
+
+# Compiled binaries
+/server
+*.exe
+*.out
+bin/
+dist/
+
+# Go build & test artifacts
+*.test
+*.prof
+coverage.out
+vendor/
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
