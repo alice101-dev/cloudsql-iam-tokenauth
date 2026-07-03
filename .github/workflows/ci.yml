@@ -17,7 +17,11 @@ jobs:
 
       - uses: actions/setup-go@v6
         with:
-          go-version-file: go.mod
+          # Latest stable toolchain, not the (possibly stale) patch pinned in
+          # go.mod — stdlib vulnerabilities are fixed by patch releases, and
+          # govulncheck scans the stdlib of the toolchain that builds the code.
+          go-version: stable
+          check-latest: true
 
       - name: go build
         run: go build ./...
@@ -36,7 +40,11 @@ jobs:
 
       - uses: actions/setup-go@v6
         with:
-          go-version-file: go.mod
+          # Latest stable toolchain, not the (possibly stale) patch pinned in
+          # go.mod — stdlib vulnerabilities are fixed by patch releases, and
+          # govulncheck scans the stdlib of the toolchain that builds the code.
+          go-version: stable
+          check-latest: true
 
       - name: Run govulncheck
         run: |
