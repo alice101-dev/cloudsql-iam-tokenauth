@@ -63,3 +63,42 @@ jobs:
         uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ github.token }}
+
+  semgrep:
+    name: SAST (Semgrep CE)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      # Lean rule set: p/golang + p/gosec for language-specific issues,
+      # p/cwe-top-25 for the broad classics. Secrets are NOT scanned here —
+      # the dedicated Gitleaks job owns that (avoids duplicate findings).
+      - name: Semgrep scan
+        run: |
+          semgrep scan \
+            --config p/golang \
+            --config p/gosec \
+            --config p/cwe-top-25 \
+            --error
+
+  golangci:
+    name: Lint (golangci-lint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+          check-latest: true
+
+      - uses: golangci/golangci-lint-action@v9
+        with:
+          version: latest
