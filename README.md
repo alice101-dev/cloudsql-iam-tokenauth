@@ -3,6 +3,7 @@
 > Connect a Go web service to **Google Cloud SQL for PostgreSQL** with **zero static passwords**, using short‑lived **IAM OAuth 2.0 tokens** over enforced **TLS**.
 
 <p>
+  <a href="https://github.com/alice101-dev/cloudsql-iam-tokenauth/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/alice101-dev/cloudsql-iam-tokenauth/actions/workflows/ci.yml/badge.svg"></a>
   <img alt="Go" src="https://img.shields.io/badge/Go-1.25-00ADD8?logo=go&logoColor=white">
   <img alt="Cloud SQL" src="https://img.shields.io/badge/Google%20Cloud%20SQL-PostgreSQL-4285F4?logo=googlecloud&logoColor=white">
   <img alt="Auth" src="https://img.shields.io/badge/Auth-IAM%20(passwordless)-2ea44f">
